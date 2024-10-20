@@ -1,18 +1,16 @@
 const App = () => {
   const course = "Half Stack application development";
   const parts = [
-    { part: "Fundamentals of React", exercises: 10 },
-    { part: "Using props to pass data", exercises: 7 },
-    { part: "State of a component", exercises: 14 },
+    { name: "Fundamentals of React", exercises: 10 },
+    { name: "Using props to pass data", exercises: 7 },
+    { name: "State of a component", exercises: 14 },
   ];
 
   return (
     <div>
       <Header course={course} />
       <Content parts={parts} />
-      <Total
-        total={parts[0].exercises + parts[1].exercises + parts[2].exercises}
-      />
+      <Total parts={parts} />
     </div>
   );
 };
@@ -39,16 +37,18 @@ const Part = (props) => {
   return (
     <div>
       <p>
-        {props.part.part} {props.part.exercises}
+        {props.part.name} {props.part.exercises}
       </p>
     </div>
   );
 };
 
 const Total = (props) => {
+  var parts = props.parts;
+  var total = parts[0].exercises + parts[1].exercises + parts[2].exercises;
   return (
     <div>
-      <p>Number of exercises {props.total}</p>
+      <p>Number of exercises {total}</p>
     </div>
   );
 };
