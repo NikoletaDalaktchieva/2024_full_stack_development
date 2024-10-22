@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   useEffect(() => {
     console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
+    personService.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
+
   console.log("render", persons.length, "persons");
 
   const [searchText, setSearchText] = useState("");
 
   const filteredPersons = persons.filter((person) =>
-    person.name.toLowerCase().includes(searchText.toLowerCase())
+    person.name.includes(searchText.toLowerCase())
   );
 
   return (
@@ -28,7 +28,7 @@ const App = () => {
       <h2>add new</h2>
       <PersonForm persons={persons} setPersons={setPersons} />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} setPersons={setPersons} />
     </div>
   );
 };
