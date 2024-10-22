@@ -1,7 +1,9 @@
 import { useState } from "react";
 import personService from "../services/persons";
 
-const PersonForm = ({ persons, setPersons }) => {
+import "../index.css";
+
+const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -15,11 +17,20 @@ const PersonForm = ({ persons, setPersons }) => {
       return;
     }
 
-    personService.create(newPerson).then((response) => {
-      setPersons(persons.concat(response.data));
-    });
-
+    personService
+      .create(newPerson)
+      .then((response) => {
+        setPersons(persons.concat(response.data));
+      })
+      .catch((e) => {
+        console.log("fail");
+      });
     setPersons(persons.concat(newPerson));
+    setNotificationInfoMessage("Added " + newPerson.name);
+
+    setTimeout(() => {
+      setNotificationInfoMessage(null);
+    }, 5000);
   };
 
   const updatePerson = (newPerson) => {
@@ -30,14 +41,24 @@ const PersonForm = ({ persons, setPersons }) => {
           "is already added to phonebook, replace the old number with a new one?"
       )
     ) {
-      personService.update(oldPerson.id, newPerson).then((response) => {
-        setPersons(
-          persons.map((person) =>
-            person.id === oldPerson.id ? response.data : person
-          )
-        );
-      });
+      personService
+        .update(oldPerson.id, newPerson)
+        .then((response) => {
+          setPersons(
+            persons.map((person) =>
+              person.id === oldPerson.id ? response.data : person
+            )
+          );
+        })
+        .catch((e) => {
+          console.log("fail");
+        });
     }
+
+    setNotificationInfoMessage("Updated " + newPerson.name);
+    setTimeout(() => {
+      setNotificationInfoMessage(null);
+    }, 5000);
   };
 
   const handleNameChange = (event) => {
@@ -49,17 +70,19 @@ const PersonForm = ({ persons, setPersons }) => {
   };
 
   return (
-    <form onSubmit={addPerson}>
-      <div>
-        name: <input value={newName} onChange={handleNameChange} />
-      </div>
-      <div>
-        number: <input value={newNumber} onChange={handleNumberChange} />
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
-    </form>
+    <div>
+      <form onSubmit={addPerson}>
+        <div>
+          name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
