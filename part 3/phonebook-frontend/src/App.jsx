@@ -21,6 +21,7 @@ const App = () => {
   }, []);
 
   console.log("render", persons.length, "persons");
+  console.log(persons);
 
   const [searchText, setSearchText] = useState("");
   const [notificationInfoMessage, setNotificationInfoMessage] = useState(null);
