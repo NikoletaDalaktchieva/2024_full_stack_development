@@ -16,7 +16,7 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
       updatePerson(newPerson);
       return;
     }
-
+    console.log("create: " + newPerson);
     personService
       .create(newPerson)
       .then((response) => {
@@ -25,7 +25,9 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
       .catch((e) => {
         console.log("fail");
       });
+    console.log("add to list: " + newPerson.name + "   " + newPerson.number);
     setPersons(persons.concat(newPerson));
+    console.log("persons: " + persons);
     setNotificationInfoMessage("Added " + newPerson.name);
 
     setTimeout(() => {

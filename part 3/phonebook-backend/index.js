@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 
 app.use(express.json());
 app.use(morgan("tiny"));
+app.use(cors());
 
 morgan.token("body", (req) => {
   return req.method === "POST" ? JSON.stringify(req.body) : "";
@@ -86,8 +88,8 @@ app.post("/api/persons", (request, response) => {
   }
 
   const person = {
-    content: body.content,
-    important: Boolean(body.important) || false,
+    name: body.name,
+    number: body.number,
     id: generateId(),
   };
 
@@ -96,7 +98,7 @@ app.post("/api/persons", (request, response) => {
   response.json(person);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
