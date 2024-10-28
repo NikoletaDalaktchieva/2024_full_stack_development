@@ -3,7 +3,12 @@ import personService from "../services/persons";
 
 import "../index.css";
 
-const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
+const PersonForm = ({
+  persons,
+  setPersons,
+  setNotificationInfoMessage,
+  setNotificationErrorMessage,
+}) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -31,10 +36,12 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
       })
       .catch((e) => {
         console.log("fail");
+        setNotificationErrorMessage(e.response.data.error);
       });
 
     setTimeout(() => {
       setNotificationInfoMessage(null);
+      setNotificationErrorMessage(null);
     }, 5000);
   };
 
@@ -57,12 +64,14 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
         })
         .catch((e) => {
           console.log("fail");
+          setNotificationErrorMessage(e.response.data.error);
         });
     }
 
     setNotificationInfoMessage("Updated " + newPerson.name);
     setTimeout(() => {
       setNotificationInfoMessage(null);
+      setNotificationErrorMessage(null);
     }, 5000);
   };
 
