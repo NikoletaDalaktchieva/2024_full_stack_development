@@ -1,5 +1,6 @@
 import { useState } from "react";
 import personService from "../services/persons";
+import PropTypes from 'prop-types';
 
 import "../index.css";
 
@@ -98,6 +99,16 @@ const PersonForm = ({
       </form>
     </div>
   );
+};
+
+
+
+
+PersonForm.propTypes = {
+  persons: PropTypes.array.isRequired,
+  setPersons: PropTypes.func.isRequired,
+  setNotificationInfoMessage: PropTypes.func.isRequired,
+  setNotificationErrorMessage: PropTypes.func.isRequired,
 };
 
 export default PersonForm;

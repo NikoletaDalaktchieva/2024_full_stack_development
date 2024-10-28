@@ -1,14 +1,15 @@
 import personService from "../services/persons";
+import PropTypes from 'prop-types';
 
 const Persons = ({ persons, setPersons, setNotificationErrorMessage }) => {
   const deletePerson = (id, name) => {
     if (window.confirm("Delete " + name)) {
       personService
         .deletePerson(id)
-        .then((response) => {
+        .then(() => {
           setPersons(persons.filter((person) => person.id !== id));
         })
-        .catch((e) => {
+        .catch(() => {
           console.log("fail");
           setNotificationErrorMessage(
             "Information of " + name + " has already been remved from server"
@@ -33,6 +34,12 @@ const Persons = ({ persons, setPersons, setNotificationErrorMessage }) => {
       ))}
     </ul>
   );
+};
+
+Persons.propTypes = {
+  persons: PropTypes.array.isRequired, 
+  setPersons: PropTypes.func.isRequired,
+  setNotificationErrorMessage: PropTypes.func.isRequired,
 };
 
 export default Persons;

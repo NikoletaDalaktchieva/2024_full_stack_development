@@ -15,7 +15,7 @@ const App = () => {
       .then((response) => {
         setPersons(response.data);
       })
-      .catch((e) => {
+      .catch(() => {
         console.log("fail");
       });
   }, []);
