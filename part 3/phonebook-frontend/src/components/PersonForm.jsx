@@ -12,6 +12,7 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
     setNewName("");
     setNewNumber("");
     const newPerson = { name: newName, number: newNumber };
+
     if (persons.some((person) => person.name === newName)) {
       updatePerson(newPerson);
       return;
@@ -21,14 +22,16 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
       .create(newPerson)
       .then((response) => {
         setPersons(persons.concat(response.data));
+        console.log(
+          "add to list: " + newPerson.name + "   " + newPerson.number
+        );
+        setPersons(persons.concat(newPerson));
+        console.log("persons: " + persons);
+        setNotificationInfoMessage("Added " + newPerson.name);
       })
       .catch((e) => {
         console.log("fail");
       });
-    console.log("add to list: " + newPerson.name + "   " + newPerson.number);
-    setPersons(persons.concat(newPerson));
-    console.log("persons: " + persons);
-    setNotificationInfoMessage("Added " + newPerson.name);
 
     setTimeout(() => {
       setNotificationInfoMessage(null);
