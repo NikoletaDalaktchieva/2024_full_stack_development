@@ -11,7 +11,7 @@ const Persons = ({ persons, setPersons, setNotificationErrorMessage }) => {
         .catch((e) => {
           console.log("fail");
           setNotificationErrorMessage(
-            "Information of " + name + " has already been remved frm server"
+            "Information of " + name + " has already been remved from server"
           );
 
           setTimeout(() => {

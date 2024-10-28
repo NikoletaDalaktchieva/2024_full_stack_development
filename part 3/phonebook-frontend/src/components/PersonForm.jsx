@@ -3,7 +3,12 @@ import personService from "../services/persons";
 
 import "../index.css";
 
-const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
+const PersonForm = ({
+  persons,
+  setPersons,
+  setNotificationInfoMessage,
+  setNotificationErrorMessage,
+}) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -12,6 +17,7 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
     setNewName("");
     setNewNumber("");
     const newPerson = { name: newName, number: newNumber };
+
     if (persons.some((person) => person.name === newName)) {
       updatePerson(newPerson);
       return;
@@ -21,17 +27,21 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
       .create(newPerson)
       .then((response) => {
         setPersons(persons.concat(response.data));
+        console.log(
+          "add to list: " + newPerson.name + "   " + newPerson.number
+        );
+        setPersons(persons.concat(newPerson));
+        console.log("persons: " + persons);
+        setNotificationInfoMessage("Added " + newPerson.name);
       })
       .catch((e) => {
         console.log("fail");
+        setNotificationErrorMessage(e.response.data.error);
       });
-    console.log("add to list: " + newPerson.name + "   " + newPerson.number);
-    setPersons(persons.concat(newPerson));
-    console.log("persons: " + persons);
-    setNotificationInfoMessage("Added " + newPerson.name);
 
     setTimeout(() => {
       setNotificationInfoMessage(null);
+      setNotificationErrorMessage(null);
     }, 5000);
   };
 
@@ -54,12 +64,14 @@ const PersonForm = ({ persons, setPersons, setNotificationInfoMessage }) => {
         })
         .catch((e) => {
           console.log("fail");
+          setNotificationErrorMessage(e.response.data.error);
         });
     }
 
     setNotificationInfoMessage("Updated " + newPerson.name);
     setTimeout(() => {
       setNotificationInfoMessage(null);
+      setNotificationErrorMessage(null);
     }, 5000);
   };
 

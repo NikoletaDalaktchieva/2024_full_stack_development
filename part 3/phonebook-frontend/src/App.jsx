@@ -28,7 +28,7 @@ const App = () => {
   const [notificationErrorMessage, setNotificationErrorMessage] =
     useState(null);
   const filteredPersons = persons.filter((person) =>
-    person.name.includes(searchText.toLowerCase())
+    person.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -42,6 +42,7 @@ const App = () => {
         persons={persons}
         setPersons={setPersons}
         setNotificationInfoMessage={setNotificationInfoMessage}
+        setNotificationErrorMessage={setNotificationErrorMessage}
       />
       <h2>Numbers</h2>
       <Persons
