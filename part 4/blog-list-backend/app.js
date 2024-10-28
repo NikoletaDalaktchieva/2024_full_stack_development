@@ -6,6 +6,7 @@ const logger = require('./utils/logger')
 const config = require('./utils/config')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
+require('express-async-errors')
 
 
 mongoose.set('strictQuery', false)
