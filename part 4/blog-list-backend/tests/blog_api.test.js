@@ -4,9 +4,8 @@ const supertest = require('supertest')
 const app = require('../app')
 const assert = require('node:assert/strict')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
-
-
 
 
 beforeEach(async () => {
@@ -17,11 +16,12 @@ beforeEach(async () => {
     let blogObject = new Blog(blog)
     await blogObject.save()
   }
+
 })
 
 const api = supertest(app)
 
-test.only('blogs are returned as json', async () => {
+test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
     .expect(200)
@@ -29,7 +29,7 @@ test.only('blogs are returned as json', async () => {
 })
 
 
-test.only('there are two blogs', async () => {
+test('there are two blogs', async () => {
   const response = await api.get('/api/blogs')
 
   assert.strictEqual(response.body.length, helper.initialBlogs.length)
@@ -44,12 +44,15 @@ test('each blog post has a unique id property', async () => {
 })
 
 describe('creation of a blog', () => {
-  test('a valid blog can be added ', async () => {
+
+  test('a valid blog can be added', async () => {
+    const users = await User.find({})
     const newBlog = {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
       url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
       likes: 12,
+      user: users[0]._id
     }
 
     await api
@@ -68,10 +71,12 @@ describe('creation of a blog', () => {
 
 
   test('if likes property is missing, it defaults to 0', async () => {
+    const users = await User.find({})
     const newBlog = {
       title: 'Missing Likes Property',
       author: 'author',
       url: 'http://nolikes.com',
+      user: users[0]._id
     }
 
     const response = await api
@@ -79,7 +84,6 @@ describe('creation of a blog', () => {
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
-
     assert.strictEqual(response.body.likes, 0)
 
     const blogsAtEnd = await Blog.find({})
@@ -88,10 +92,12 @@ describe('creation of a blog', () => {
   })
 
   test('fails with status code 400 if title is missing', async () => {
+    const users = await User.find({})
     const newBlog = {
       author: 'Author Missing Title',
       url: 'http://author-missing.com',
       likes: 10,
+      user: users[0]._id
     }
 
     await api
@@ -101,10 +107,12 @@ describe('creation of a blog', () => {
   })
 
   test('fails with status code 400 if url is missing', async () => {
+    const users = await User.find({})
     const newBlog = {
       title: 'Missing URL',
       author: 'Author Missing URL',
       likes: 10,
+      user: users[0]._id
     }
 
     await api
