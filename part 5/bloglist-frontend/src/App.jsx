@@ -30,7 +30,6 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      blogService.setToken("user.token");
       fetchBlogs();
     }
   }, []);
@@ -87,7 +86,7 @@ const App = () => {
   const deleteBlog = (blogToDelete) => {
     blogService
       .deleteBlog(blogToDelete.id)
-      .then((returnedBlog) => {
+      .then(() => {
         setBlogs(blogs.filter((bb) => bb.id !== blogToDelete.id));
       })
       .catch((e) => {
