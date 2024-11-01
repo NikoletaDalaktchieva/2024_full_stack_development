@@ -1,4 +1,5 @@
-import BlogDetailsToggable from "../components/BlogDetailsToggable";
+import BlogDetailsToggable from '../components/BlogDetailsToggable'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, updateBlog, deleteBlog }) => {
   const updBlog = (oldBlog) => {
@@ -8,10 +9,10 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
       author: oldBlog.author,
       title: oldBlog.title,
       url: oldBlog.url,
-    };
+    }
 
-    updateBlog(oldBlog, newBlog);
-  };
+    updateBlog(oldBlog, newBlog)
+  }
 
   const dltBlog = (blogToDelete) => {
     if (
@@ -19,18 +20,18 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
         `Remove blog ${blogToDelete.name} by ${blogToDelete.user.name}`
       )
     ) {
-      deleteBlog(blogToDelete);
+      deleteBlog(blogToDelete)
     }
-  };
+  }
 
   return (
-    <div className="blogStyle">
+    <div className='blogStyle'>
       {blog.title}
-      <BlogDetailsToggable buttonLabel="view">
+      <BlogDetailsToggable buttonLabel='view'>
         {
           <div>
             {blog.url} <br />
-            likes {blog.likes}{" "}
+            likes {blog.likes}{' '}
             <button onClick={() => updBlog(blog)}>like</button>
             <br />
             {blog.user.name} <br />
@@ -39,7 +40,15 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
         }
       </BlogDetailsToggable>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updateBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
+}
+
+Blog.displayName = 'Blog'
+
+export default Blog
