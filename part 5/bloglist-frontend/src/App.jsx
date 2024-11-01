@@ -21,7 +21,7 @@ const App = () => {
       const blogs = await blogService.getAll()
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     } catch (e) {
-      if (e.response.data.error.includes('Unauthorized')) setUser(null)
+      console.log(e)
     }
   }
 

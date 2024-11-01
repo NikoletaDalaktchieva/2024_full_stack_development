@@ -22,7 +22,7 @@ const BlogDetailsToggable = forwardRef((props, refs) => {
         {props.buttonLabel}
       </button>
 
-      <span style={showWhenVisible}>
+      <span style={showWhenVisible} className="blogDetails">
         <button onClick={toggleVisibility}>hide</button>
         {props.children}
       </span>

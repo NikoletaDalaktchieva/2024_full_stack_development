@@ -26,16 +26,13 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
 
   return (
     <div className='blogStyle'>
-      {blog.title}
+      {blog.title} {blog.author}
       <BlogDetailsToggable buttonLabel='view'>
         {
           <div>
-            {blog.url} <br />
-            likes {blog.likes}{' '}
-            <button onClick={() => updBlog(blog)}>like</button>
-            <br />
-            {blog.user.name} <br />
-            <button onClick={() => dltBlog(blog)}>remove</button>
+            <p>{blog.url}</p>
+            <p>likes {blog.likes}{' '}  <button onClick={() => updBlog(blog)}>like</button></p>
+            <p>{blog.user.name} <button onClick={() => dltBlog(blog)}>remove</button></p>
           </div>
         }
       </BlogDetailsToggable>
@@ -46,7 +43,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired
 }
 
 Blog.displayName = 'Blog'
