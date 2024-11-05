@@ -1,7 +1,7 @@
-import BlogDetailsToggable from '../components/BlogDetailsToggable'
-import PropTypes from 'prop-types'
+import BlogDetailsToggable from "../components/BlogDetailsToggable";
+import PropTypes from "prop-types";
 
-const Blog = ({ blog, updateBlog, deleteBlog }) => {
+const Blog = ({ user, blog, updateBlog, deleteBlog }) => {
   const updBlog = (oldBlog) => {
     const newBlog = {
       user: oldBlog.user.id,
@@ -9,10 +9,10 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
       author: oldBlog.author,
       title: oldBlog.title,
       url: oldBlog.url,
-    }
+    };
 
-    updateBlog(oldBlog, newBlog)
-  }
+    updateBlog(oldBlog, newBlog);
+  };
 
   const dltBlog = (blogToDelete) => {
     if (
@@ -20,32 +20,42 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
         `Remove blog ${blogToDelete.name} by ${blogToDelete.user.name}`
       )
     ) {
-      deleteBlog(blogToDelete)
+      deleteBlog(blogToDelete);
     }
-  }
+  };
+
+  const isCreator = blog.user.id == user.id;
 
   return (
-    <div className='blogStyle'>
+    <div className="blogStyle">
       {blog.title} {blog.author}
-      <BlogDetailsToggable buttonLabel='view'>
+      <BlogDetailsToggable buttonLabel="view">
         {
           <div>
             <p>{blog.url}</p>
-            <p>likes {blog.likes}{' '}  <button onClick={() => updBlog(blog)}>like</button></p>
-            <p>{blog.user.name} <button onClick={() => dltBlog(blog)}>remove</button></p>
+            <p>
+              likes {blog.likes}{" "}
+              <button onClick={() => updBlog(blog)}>like</button>
+            </p>
+            <p>
+              {blog.user.name}
+              {isCreator && (
+                <button onClick={() => dltBlog(blog)}>remove</button>
+              )}
+            </p>
           </div>
         }
       </BlogDetailsToggable>
     </div>
-  )
-}
+  );
+};
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired
-}
+  deleteBlog: PropTypes.func.isRequired,
+};
 
-Blog.displayName = 'Blog'
+Blog.displayName = "Blog";
 
-export default Blog
+export default Blog;

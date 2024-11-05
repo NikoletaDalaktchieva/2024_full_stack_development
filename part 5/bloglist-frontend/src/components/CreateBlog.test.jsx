@@ -4,16 +4,7 @@ import userEvent from '@testing-library/user-event'
 
 
 
-describe('<CreateBlog />', () => {
-    const blog = {
-        id: '123',
-        title: 'Test Title',
-        author: 'Test Author',
-        url: 'http://test.com',
-        likes: 420,
-        user: { id: 'user123', name: 'User Test' },
-      };
-    
+describe('<CreateBlog />', () => { 
 
     test('create blog', async () => {
         const createBlog = vi.fn();
